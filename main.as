@@ -7,7 +7,7 @@ void RenderMenu(){
         openImages.InsertLast(Img(""));
     }
     for (int i = 0; i < openImages.Length; i++){
-        if (UI::MenuItem(Icons::FileImageO + " " + (openImages[i].isImg() ? openImages[i].imgName() : "New Image"))){
+        if (UI::MenuItem(Icons::FileImageO + " " + (openImages[i].isImg() ? openImages[i].imgName() : "New Image###"+i))){
             deleteNext = i;
         }
     }
@@ -23,7 +23,7 @@ void Render(){
             if (img.m_texture !is null){
                 nvg::BeginPath();
                 nvg::Rect(openImages[i].pos, openImages[i].size);
-                nvg::FillPaint(nvg::TexturePattern(UI::GetWindowPos(), UI::GetWindowSize(), 0.0f, img.m_texture, 1.0f));
+                nvg::FillPaint(nvg::TexturePattern(openImages[i].pos, openImages[i].size, 0.0f, img.m_texture, 1.0f));
                 nvg::Fill();
                 nvg::ClosePath();
             }
@@ -33,7 +33,7 @@ void Render(){
 
 void RenderInterface(){
     for (int i = 0; i < openImages.Length; i++){
-        if (UI::Begin(openImages[i].isImg() ? openImages[i].imgName() : "New Image", openImages[i].isOpen, UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::NoScrollbar)){
+        if (UI::Begin(openImages[i].isImg() ? openImages[i].imgName() : "New Image###"+i, openImages[i].isOpen, UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::NoScrollbar)){
             // NEW IMAGE
             if (!openImages[i].isImg()){
                 openImages[i].tempUrl = UI::InputText("Image URL", openImages[i].tempUrl);
@@ -65,7 +65,7 @@ void RenderInterface(){
     }
 }
 
-void Update(){
+void Update(float dt){
     if (deleteNext != -1){
         openImages.RemoveAt(deleteNext);
         deleteNext = -1;
