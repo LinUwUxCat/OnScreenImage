@@ -23,7 +23,7 @@ void Render(){
             if (img.m_texture !is null){
                 nvg::BeginPath();
                 nvg::Rect(openImages[i].pos, openImages[i].size);
-                nvg::FillPaint(nvg::TexturePattern(UI::GetWindowPos() + (UI::GetWindowSize() / 2), UI::GetWindowSize(), 0.0f, img.m_texture, 1.0f));
+                nvg::FillPaint(nvg::TexturePattern(UI::GetWindowPos(), UI::GetWindowSize(), 0.0f, img.m_texture, 1.0f));
                 nvg::Fill();
                 nvg::ClosePath();
             }
